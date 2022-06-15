@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Symfoflegend | {{ champion.name }} {% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .shadow-box {
+            box-shadow: 1px 1px 2px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+<div class="row mt-5 mb-5">
+    <div class="col-md-8 offset-2">
+        <div class="card mb-3 shadow-box">
+            <h3 class="card-header text-center">{{ champion.name }}</h3>
+            <div class="card-body text-center">
+                <h5 class="card-title">{{ champion.title }}</h5>
+                <h6 class="card-subtitle text-muted">{{ champion.type }}</h6>
+            </div>
+            <img class="mx-auto d-block rounded border border-warning mt-3 mb-3 shadow-box" src="{{ champion.image }}" alt="image_champion" width="25%" height="auto">
+            <div class="card-body">
+                <p class="card-text text-center mt-3">"{{ champion.lore }}"</p>
+            </div>
+            <div class="card-body">
+                <h5>Difficulté ({{champion.difficulty * 10}}%):</h5>
+                <div class="progress">
+                {% if champion.difficulty * 10 <= 30 %}
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" aria-valuenow="{{ champion.difficulty * 10 }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ champion.difficulty * 10 }}%;"></div>
+                {% elseif (champion.difficulty * 10 > 30) and (champion.difficulty * 10 <= 60) %}
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-warning" role="progressbar" aria-valuenow="{{ champion.difficulty * 10 }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ champion.difficulty * 10 }}%;"></div>
+                {% elseif (champion.difficulty * 10 > 60) and (champion.difficulty * 10 <= 100) %}
+                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="{{ champion.difficulty * 10 }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ champion.difficulty * 10 }}%;"></div>
+                {% endif %}
+                </div>
+                <a href="{{ path('app_modifier', {'name': champion.name}) }}">
+                    <button type="submit" class="btn btn-dark mt-3">Modifier</button>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

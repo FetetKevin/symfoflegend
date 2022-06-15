@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} 404 Not Found {% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md mt-5 mb-5">
+        <h1>404 Ressource non trouvée</h1>
+        <p>
+            Ressource non trouvée. Verifier l'url saisie <a href="{{ path('app_home') }}">retourner à la page d'accueil</a>.
+        </p>
+    </div>
+</div>
+
+    
+{% endblock %}

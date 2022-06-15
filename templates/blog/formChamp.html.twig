@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Symfoflegend | Ajouter un champion{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .border {
+            padding: 15px;
+            box-shadow: 1px 1px 2px;
+        }
+        h2{
+            font-size: 35px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-lg-8 offset-2">
+        <h2 class="mt-4 mb-3">Ajouter un champion !</h2>
+    
+
+        <div class="border mb-5">
+                {{ form_start(formChamp) }}
+                {{ form_errors(formChamp.name) }}
+                {{ form_row(formChamp.name, {'label': 'Nom du champion', 'attr': {'placeholder': 'Entrez le nom du champion'}}) }}
+                {{ form_row(formChamp.title, {'label': 'Titre du champion', 'attr': {'placeholder': 'Entrez le titre honorifique du champion'}}) }}
+                {{ form_row(formChamp.type, {'label': 'Type du champion', 'attr': {'placeholder': 'Entrez le type du champion'}}) }}
+                {{ form_row(formChamp.difficulty, {'label': 'Difficultée'}) }}
+                {{ form_row(formChamp.lore, {'label': 'Lore du champion', 'attr': {'placeholder': 'Entrez le lore du champion'}}) }}
+                <button type="submit" class="btn btn-success">
+                    Ajouter le champion
+                </button>
+                {{ form_end(formChamp) }}
+        </div>
+    </div> 
+</div>
+{% endblock %}
