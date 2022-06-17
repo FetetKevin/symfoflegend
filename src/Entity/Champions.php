@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ChampionsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,6 +48,16 @@ class Champions
      * @ORM\Column(type="integer")
      */
     private $difficulty;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="champion", orphanRemoval=true)
+     */
+    private $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -120,6 +132,36 @@ class Champions
     public function setDifficulty(int $difficulty): self
     {
         $this->difficulty = $difficulty;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setChampion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getChampion() === $this) {
+                $comment->setChampion(null);
+            }
+        }
 
         return $this;
     }

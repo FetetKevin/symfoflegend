@@ -7,12 +7,32 @@
         .shadow-box {
             box-shadow: 1px 1px 2px;
         }
+        .commentbox{
+            border: 1px solid grey;
+            box-shadow: 1px 1px 2px;
+            /*padding: 10px 10px 33px 10px;*/
+            padding-bottom: 50px;
+        }
+        .comment-wrapper .panel-body {
+            max-height:650px;
+        }
+
+        .comment-wrapper .media-list .media img {
+            width:64px;
+            height:64px;
+            border:2px solid #e5e7e8;
+        }
+
+        .comment-wrapper .media-list .media {
+            border-bottom:1px dashed #efefef;
+            margin-bottom:25px;
+        }
     </style>
 {% endblock %}
 
 {% block body %}
 
-<div class="row mt-5 mb-5">
+<div class="row mt-5 mb-3">
     <div class="col-md-8 offset-2">
         <div class="card mb-3 shadow-box">
             <h3 class="card-header text-center">{{ champion.name }}</h3>
@@ -40,10 +60,46 @@
                         Modifier
                     </button>
                 </a>
-                
             </div>
         </div>
     </div>
 </div>
+
+
+<div class="row commentbox snippets bootdeys mb-3">
+    <div class="col-md-10 offset-1">
+        <div class="comment-wrapper">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Section commentaire
+                </div>
+                <div class="panel-body">
+                    <textarea class="form-control" placeholder="write a comment..." rows="3"></textarea>
+                    <br>
+                    <button type="button" class="btn btn-info pull-right">Post</button>
+                    <div class="clearfix"></div>
+                    <hr>
+                    <ul class="media-list">
+                        
+                        {% for comment in champion.comments %}
+                        <div class="media-body">
+                            <span class="text-muted pull-right">
+                                <strong class="text-dark">{{ comment.author }}</strong>
+                                 écrit le <small class="text-muted">{{ comment.createdAt | date('d/m/Y à H:i') }}</small>
+                            </span>
+                            
+                            {{ comment.content | raw }} 
+                           
+                        </div>
+                        <hr>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
 
 {% endblock %}
