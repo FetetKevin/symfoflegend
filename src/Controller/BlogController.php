@@ -36,7 +36,6 @@ class BlogController extends AbstractController
      */
     public function formChamp(Champions $champion = null, Request $request, EntityManagerInterface $manager)
     {
-
         if(!$champion){
             $champion = new Champions();
         }
@@ -77,15 +76,33 @@ class BlogController extends AbstractController
     /**
      * @Route("/champion/{name}", name="app_champion")
      */
-    public function unique(String $name): Response
+    public function formComment(String $name, Comment $comment = null, Request $request, EntityManagerInterface $manager): Response
     {
         $champion = $this->repo->findOneByName($name);
 
         if(!$champion) {
             throw $this->createNotFoundException();
         }
+        if(!$comment){
+            $comment = new Comment();
+        }
 
+        $form = $this->createFormBuilder($comment)
+                    ->add('content')
+                    ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $comment->setChampion($champion);
+            $comment->setAuthor('exemple');
+            $comment->setCreatedAt(new \DateTime());
+
+            $manager->persist($comment);
+            $manager->flush();
+        }
         return $this->render('blog/champion.html.twig', [
+            'formComment' => $form->createView(),
             'champion' => $champion
         ]);
     }

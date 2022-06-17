@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Symfoflegend | Ajouter un champion{% endblock %}
+{% block title %}Symfoflegend | {% if modify %}Mettre à jour !{% else %}Ajouter un champion !{% endif %}{% endblock %}
 
 {% block stylesheets %}
     <style>

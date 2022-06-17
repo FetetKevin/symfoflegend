@@ -10,8 +10,11 @@
         .commentbox{
             border: 1px solid grey;
             box-shadow: 1px 1px 2px;
-            /*padding: 10px 10px 33px 10px;*/
+            padding-top: 10px;
             padding-bottom: 50px;
+        }
+        .commenttitle{
+            font-size: 30px;
         }
         .comment-wrapper .panel-body {
             max-height:650px;
@@ -70,13 +73,17 @@
     <div class="col-md-10 offset-1">
         <div class="comment-wrapper">
             <div class="panel panel-info">
-                <div class="panel-heading">
+                <div class="panel-heading commenttitle">
                     Section commentaire
                 </div>
                 <div class="panel-body">
-                    <textarea class="form-control" placeholder="write a comment..." rows="3"></textarea>
+                    {# <textarea class="form-control" placeholder="write a comment..." rows="3"></textarea>
                     <br>
-                    <button type="button" class="btn btn-info pull-right">Post</button>
+                    <button type="button" class="btn btn-info pull-right">Post</button> #}
+                    {{ form_start(formComment) }}
+                    {{ form_row(formComment.content, {'label': ' ', 'attr': {'placeholder': 'Entrez votre commentaire'}}) }}
+                    <button type="submit" class="btn btn-success">Poster</button>
+                    {{ form_end(formComment) }}
                     <div class="clearfix"></div>
                     <hr>
                     <ul class="media-list">
@@ -87,9 +94,8 @@
                                 <strong class="text-dark">{{ comment.author }}</strong>
                                  écrit le <small class="text-muted">{{ comment.createdAt | date('d/m/Y à H:i') }}</small>
                             </span>
-                            
+                            <br>
                             {{ comment.content | raw }} 
-                           
                         </div>
                         <hr>
                         {% endfor %}
