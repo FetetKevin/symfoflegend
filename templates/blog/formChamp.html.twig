@@ -18,7 +18,13 @@
 
 <div class="row">
     <div class="col-lg-8 offset-2">
-        <h2 class="mt-4 mb-3">Ajouter un champion !</h2>
+        <h2 class="mt-4 mb-3">
+        {% if modify %}
+            Mettre à jour !
+        {% else %}
+            Ajouter un champion !
+        {% endif %}
+        </h2>
     
 
         <div class="border mb-5">
@@ -27,10 +33,14 @@
                 {{ form_row(formChamp.name, {'label': 'Nom du champion', 'attr': {'placeholder': 'Entrez le nom du champion'}}) }}
                 {{ form_row(formChamp.title, {'label': 'Titre du champion', 'attr': {'placeholder': 'Entrez le titre honorifique du champion'}}) }}
                 {{ form_row(formChamp.type, {'label': 'Type du champion', 'attr': {'placeholder': 'Entrez le type du champion'}}) }}
-                {{ form_row(formChamp.difficulty, {'label': 'Difficultée'}) }}
+                {{ form_row(formChamp.difficulty, {'label': 'Difficultée', 'attr': {'min':1, 'max':10}}) }}
                 {{ form_row(formChamp.lore, {'label': 'Lore du champion', 'attr': {'placeholder': 'Entrez le lore du champion'}}) }}
                 <button type="submit" class="btn btn-success">
-                    Ajouter le champion
+                    {% if modify %}
+                        Enregistrer les modifications
+                    {% else %}
+                        Ajouter un champion
+                    {% endif %}
                 </button>
                 {{ form_end(formChamp) }}
         </div>

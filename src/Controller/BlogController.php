@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\ChampionsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class BlogController extends AbstractController
 {
@@ -41,8 +43,16 @@ class BlogController extends AbstractController
         $form = $this->createFormBuilder($champion)
                     ->add('name')
                     ->add('title')
-                    ->add('type')
-                    ->add('difficulty')
+                    ->add('type', ChoiceType::class, [
+                        'choices'  => [
+                            'Mage' => 'Mage',
+                            'Fighter' => 'Fighter',
+                            'Assassin' => 'Assassin',
+                            'Tank' => 'Tank',
+                            'Support' => 'Support',
+                        ],
+                    ])
+                    ->add('difficulty', IntegerType::class)
                     ->add('lore')
                     ->getForm();
 
@@ -58,7 +68,8 @@ class BlogController extends AbstractController
         }
 
         return $this->render('blog/formChamp.html.twig', [
-            'formChamp' => $form->createView()
+            'formChamp' => $form->createView(),
+            'modify' => $champion->getId() !== null
         ]);
     }
 
