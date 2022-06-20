@@ -30,6 +30,7 @@ class SecurityController extends AbstractController
 
             $user->setPassword($hash);
             $user->setRegisterDate(new \DateTime());
+            $user->setRole('ROLE_USER');
 
             $manager->persist($user);
             $manager->flush();

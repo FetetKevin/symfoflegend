@@ -57,6 +57,11 @@ class User implements UserInterface
      */
     private $registerDate;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $role;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -121,5 +126,17 @@ class User implements UserInterface
     public function getRoles()
     {
         return ['ROLE_USER'];
+    }
+
+    public function getRole(): ?string
+    {
+        return $this->role;
+    }
+
+    public function setRole(string $role): self
+    {
+        $this->role = $role;
+
+        return $this;
     }
 }

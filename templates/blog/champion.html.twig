@@ -30,6 +30,10 @@
             border-bottom:1px dashed #efefef;
             margin-bottom:25px;
         }
+        #admin{
+            color: red;
+            font-weight: bold;
+        }
     </style>
 {% endblock %}
 
@@ -58,11 +62,13 @@
                     <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" role="progressbar" aria-valuenow="{{ champion.difficulty * 10 }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ champion.difficulty * 10 }}%;"></div>
                 {% endif %}
                 </div>
-                <a href="{{ path('app_modifier', {'name': champion.name}) }}">
-                    <button type="submit" class="btn btn-dark mt-3">
-                        Modifier
-                    </button>
-                </a>
+                {% if app.user and app.user.role == 'ROLE_ADMIN' %}
+                    <a href="{{ path('app_modifier', {'name': champion.name}) }}">
+                        <button type="submit" class="btn btn-dark mt-3">
+                            Modifier
+                        </button>
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
@@ -105,6 +111,4 @@
 
     </div>
 </div>
-
-
 {% endblock %}
