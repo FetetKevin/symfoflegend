@@ -112,7 +112,9 @@ class User implements UserInterface
 
     public function eraseCredentials(){}
 
-    public function getUsername(){}
+    public function getUsername(){
+        return $this->nickname;
+    }
 
     public function getSalt(){}
 

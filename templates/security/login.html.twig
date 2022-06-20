@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Symfoflegend | Connection{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .border {
+            padding: 15px;
+            box-shadow: 1px 1px 2px;
+        }
+        h2{
+            font-size: 35px;
+        }
+    </style>{% endblock %}
+{% block body %}
+    
+<div class="row">
+    <div class="col-lg-8 offset-2">
+        <h2 class="mt-4 mb-3">
+        Se connecter
+        </h2>
+    
+
+        <div class="border mb-5">
+            <form action="{{ path('app_login') }}" method="post">
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input placeholer="Votre mail" required name="_username" type="text" class="form-control">
+                </div>
+                <div class="form-group mb-2">
+                    <label for="">Mot de passe</label>
+                    <input placeholer="Votre mot de passe" required name="_password" type="password" class="form-control">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Se connecter</button>
+                </div>
+            </form>
+        </div>
+    </div> 
+</div>
+
+
+{% endblock %}

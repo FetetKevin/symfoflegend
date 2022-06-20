@@ -34,10 +34,24 @@ class SecurityController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('security/registration.html.twig', [
             'formRegistration' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/connexion", name="app_login")
+     */
+    public function login()
+    {
+        return $this->render('security/login.html.twig');
+    }
+
+    /**
+     * @Route("/logout", name="app_logout")
+     */
+    public function logout(){}
 }

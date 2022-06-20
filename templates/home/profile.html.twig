@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Symfoflegend | {{app.user.nickname}} {% endblock %}
+
+{% block stylesheets %}{% endblock %}
+
+{% block body %}
+{{ dump(app.user)}}
+<h1>Profile</h1>
+
+{% endblock %}

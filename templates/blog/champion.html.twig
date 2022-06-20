@@ -77,14 +77,13 @@
                     Section commentaire
                 </div>
                 <div class="panel-body">
-                    {# <textarea class="form-control" placeholder="write a comment..." rows="3"></textarea>
-                    <br>
-                    <button type="button" class="btn btn-info pull-right">Post</button> #}
-                    {{ form_start(formComment) }}
-                    {{ form_row(formComment.content, {'label': ' ', 'attr': {'placeholder': 'Entrez votre commentaire'}}) }}
-                    <button type="submit" class="btn btn-success">Poster</button>
-                    {{ form_end(formComment) }}
-                    <div class="clearfix"></div>
+                    {% if app.user %}
+                        {{ form_start(formComment) }}
+                        {{ form_row(formComment.content, {'label': ' ', 'attr': {'placeholder': 'Entrez votre commentaire'}}) }}
+                        <button type="submit" class="btn btn-success">Poster</button>
+                        {{ form_end(formComment) }}
+                        <div class="clearfix"></div>
+                    {% endif %}
                     <hr>
                     <ul class="media-list">
                         

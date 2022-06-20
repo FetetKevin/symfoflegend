@@ -2,16 +2,18 @@
 
 namespace App\Controller;
 
-use App\Entity\Champions;
+
 use App\Entity\Comment;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\Champions;
 use App\Repository\ChampionsRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Security;
 
 class BlogController extends AbstractController
 {
@@ -76,9 +78,14 @@ class BlogController extends AbstractController
     /**
      * @Route("/champion/{name}", name="app_champion")
      */
-    public function formComment(String $name, Comment $comment = null, Request $request, EntityManagerInterface $manager): Response
+    public function formComment(String $name, Comment $comment = null, Request $request, EntityManagerInterface $manager, Security $security): Response
     {
         $champion = $this->repo->findOneByName($name);
+        $user = $security->getUser();
+
+        if(!empty($user)){
+            $nickname = $user->getNickname();
+        }
 
         if(!$champion) {
             throw $this->createNotFoundException();
@@ -95,7 +102,7 @@ class BlogController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
             $comment->setChampion($champion);
-            $comment->setAuthor('exemple');
+            $comment->setAuthor($nickname);
             $comment->setCreatedAt(new \DateTime());
 
             $manager->persist($comment);
