@@ -27,6 +27,13 @@
 {% block body %}
 
 <div class="row d-flex align-content-stretch mt-5 mb-5">
+    {% if app.user and app.user.role == 'ROLE_ADMIN' %}
+    <a class="nav-link" href="{{ path('app_ajouter') }}">
+        <button type="submit" class="btn btn-dark">
+            Ajouter un champion
+        </button>
+    </a>
+    {% endif %}
     {% for champ in champions %}
     <div class="col-sm-6 col-md-3 p-4">
         <a href="{{ path('app_champion', { 'name' : champ.name }) }}">
