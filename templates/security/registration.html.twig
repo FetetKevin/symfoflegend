@@ -16,11 +16,14 @@
 
 
 {% block body %}
-
 <div class="row">
     <div class="col-lg-8 offset-2">
         <h2 class="mt-4 mb-3">
-        S'inscrire
+        {% if modify %}
+            Mettre à jour !
+        {% else %}
+            S'inscrire !
+        {% endif %}
         </h2>
     
 
@@ -31,7 +34,11 @@
                 {{ form_row(formRegistration.password, {'label': 'Mot de passe', 'attr': {'placeholder': 'Entrez votre mot de passe'}}) }}
                 {{ form_row(formRegistration.confirm_password, {'label': 'Validation', 'attr': {'placeholder': 'Confirmez votre mot de passe'}}) }}
                 <button type="submit" class="btn btn-success">
-                    S'enregistrer
+                    {% if modify %}
+                        Enregistrer les modifications
+                    {% else %}
+                        S'enregistrer
+                    {% endif %}
                 </button>
                 {{ form_end(formRegistration) }}
         </div>

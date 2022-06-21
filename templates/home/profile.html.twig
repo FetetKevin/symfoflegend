@@ -24,7 +24,7 @@
                             <th scope="col">Pseudo</th>
                             <th scope="col">Email</th>
                             <th scope="col">Date d'inscription</th>
-                            <th scope="col">Modifier</th>
+                            <th scope="col"><a href="{{ path('app_profile_modifier') }}">Modifier<a></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,7 +33,10 @@
                             <td>{{ app.user.nickname }}</td>
                             <td>{{ app.user.email }}</td>
                             <td>{{ app.user.registerDate | date('d/m/Y à H:i') }}</td>
-                            <td>icone modifier</td>
+                            <td><a href="{{ path('app_profile_modifier') }}">
+                                    <button class="btn btn-success">Modifier</button>
+                                <a>
+                            </td>
                             </tr>
                         </tbody>
                     </table>
@@ -52,6 +55,7 @@
                         <thead>
                             <tr>
                             <th scope="col">ID</th>
+                            <th scope="col">Auteur</th>
                             <th scope="col">Contenu</th>
                             <th scope="col">Date</th>
                             <td>Supprimer</td>
@@ -62,9 +66,12 @@
                         {% for comment in comments %}
                             <tr>
                             <th scope="row">{{ comment.id }}</th>
+                            <td>{{ comment.author }}</td>
                             <td>{{ comment.content }}</td>
                             <td>{{ comment.createdAt | date('d/m/Y à H:i') }}</td>
-                            <td>icone supprimer</td>
+                            <td><a href="{{ path('app_delete_comm', {'id': comment.id}) }}">
+                                    <button class="btn btn-danger">Supprimer</button>
+                                <a></td>
                             </tr>
                         {% endfor %}
                         </tbody>      
@@ -97,7 +104,9 @@
                                 <td>{{ user.nickname }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.registerDate | date('d/m/Y à H:i') }}</td>
-                                <td>icone supprimer</td>
+                                <td><a href="{{ path('app_delete_user', {'id': user.id}) }}">
+                                    <button class="btn btn-danger">Supprimer</button>
+                                <a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -124,7 +133,11 @@
             <td>{{ app.user.nickname }}</td>
             <td>{{ app.user.email }}</td>
             <td>{{ app.user.registerDate | date('d/m/Y à H:i') }}</td>
-            <td>icone modifier</td>
+            <td>
+                <a href="{{ path('app_profile_modifier') }}">
+                    <button class="btn btn-success">Modifier</button>
+                <a>
+            </td>
             </tr>
         </tbody>
     </table>

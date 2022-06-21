@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Repository\CommentRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +28,7 @@ class HomeController extends AbstractController
     {
         return $this->render('home/index.html.twig');
     }
-
+    
     /**
      * @Route("/profile", name="app_profile")
      */
