@@ -91,17 +91,14 @@
                         <div class="clearfix"></div>
                     {% endif %}
                     <hr>
-                    <ul class="media-list">
-                        
+                    <ul class="media-list pb-3">
                         {% for comment in champion.comments %}
                         <div class="media-body">
                             <span class="text-muted pull-right">
                                 <strong class="text-dark">{{ comment.author }}</strong>
                                  écrit le <small class="text-muted">{{ comment.createdAt | date('d/m/Y à H:i') }}</small>
                             </span>
-                            <br>
-                            {{ comment.content | raw }}
-                            
+                            {{ comment.content | raw }} 
                         </div>
                         <hr>
                         {% endfor %}
