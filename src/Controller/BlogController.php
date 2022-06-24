@@ -20,6 +20,19 @@ class BlogController extends AbstractController
     public function __construct(ChampionsRepository $repo){
         $this->repo = $repo;
     }
+
+    /**
+     * @Route("/liste_des_champions/{type}", name="app_liste_sorted")
+     */
+    public function listeSorted(String $type): Response
+    {
+        $champions = $this->repo->findBy(['type' => $type]);
+    
+        return $this->render('blog/index.html.twig', [
+            'champions' => $champions
+        ]);
+    }
+
     /**
      * @Route("/liste_des_champions", name="app_liste")
      */

@@ -26,6 +26,39 @@
 
 {% block body %}
 
+<div class="row d-flex align-content-stretch">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{{ path('app_liste') }}">Tous</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_liste_sorted', { 'type' : 'Fighter' }) }}">Bruiser</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_liste_sorted', { 'type' : 'Mage' }) }}">Mage</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_liste_sorted', { 'type' : 'Assassin' }) }}">Assassin</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_liste_sorted', { 'type' : 'Marksman' }) }}">ADC</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_liste_sorted', { 'type' : 'Tank' }) }}">Tank</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_liste_sorted', { 'type' : 'Support' }) }}">Support</a>
+                </li>
+            </ul>
+        </div> 
+    </nav>
+</div>
+
+
+
 <div class="row d-flex align-content-stretch mt-5 mb-5">
     {% if app.user and app.user.role == 'ROLE_ADMIN' %}
     <a class="nav-link" href="{{ path('app_ajouter') }}">
