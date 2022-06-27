@@ -38,6 +38,10 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Email
+     * @Assert\Regex(
+     *              pattern="/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-.]+$/",
+     *              message="Veuillez entrer une adresse mail valide."
+     * )
      */
     private $email;
 

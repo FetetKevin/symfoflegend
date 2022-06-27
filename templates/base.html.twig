@@ -42,7 +42,7 @@
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_profile') }}">
+                        <a class="nav-link" href="{{ path('app_profile', { 'name' : app.user.nickname }) }}">
                             Profile
                         </a>
                     </li>

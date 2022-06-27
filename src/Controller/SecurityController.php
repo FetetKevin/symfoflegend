@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
-use Attribute;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Repository\UserRepository;
@@ -24,7 +23,6 @@ class SecurityController extends AbstractController
     {  
 
         $user = new User();
-        
         $form = $this->createForm(RegistrationType::class, $user);
 
         $form->handleRequest($request);
@@ -56,23 +54,19 @@ class SecurityController extends AbstractController
     public function update(Security $security, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $encoder)
     {  
         $user = $security->getUser();
-        
         $form = $this->createForm(RegistrationType::class, $user);
-
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
 
             $clearPass = $user->getPassword();
             $hash = $encoder->hashPassword($user, $clearPass);
-
             $user->setPassword($hash);
             $user->setRole('ROLE_USER');
-
             $manager->persist($user);
             $manager->flush();
 
-            return $this->redirectToRoute('app_profile');
+            return $this->redirectToRoute('app_profile', ['name' => $this->getUser()->getNickname()]);
         }
 
         return $this->render('security/registration.html.twig', [
@@ -82,35 +76,41 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/profile/{name}", name="app_profile")
+     */
+    public function profile(String $name, UserRepository $users, CommentRepository $comment)
+    {
+        $usersList = $users->findBy([], ['id' => 'ASC']);
+        $commentList = $comment->findBy([], ['id' => 'ASC']);
+        $userComms = $comment->findBy(['author' => $name]);
+
+        return $this->render('home/profile.html.twig', [
+            'users' => $usersList,
+            'comments' => $commentList,
+            'userComms' => $userComms
+        ]);
+    }
+
+    /**
      * @Route("/commentaire/{id}/delete", name="app_delete_comm")
      */
-    public function delete_commentaire(Comment $comm, EntityManagerInterface $manager,UserRepository $users, CommentRepository $comment)
+    public function delete_commentaire(Comment $comm, EntityManagerInterface $manager)
     {
         $manager->remove($comm);
         $manager->flush();
 
-        $usersList = $users->findBy([], ['id' => 'ASC']);
-        $commentList = $comment->findBy([], ['id' => 'ASC']);
-        return $this->render('home/profile.html.twig', [
-            'users' => $usersList,
-            'comments' => $commentList
-        ]);
+        return $this->redirectToRoute('app_profile', ['name' => $this->getUser()->getNickname()]);
     }
 
     /**
      * @Route("/user/{id}/delete", name="app_delete_user")
      */
-    public function delete_user(User $user, EntityManagerInterface $manager,UserRepository $users, CommentRepository $comment)
+    public function delete_user(User $user, EntityManagerInterface $manager)
     {
         $manager->remove($user);
         $manager->flush();
 
-        $usersList = $users->findBy([], ['id' => 'ASC']);
-        $commentList = $comment->findBy([], ['id' => 'ASC']);
-        return $this->render('home/profile.html.twig', [
-            'users' => $usersList,
-            'comments' => $commentList
-        ]);
+        return $this->redirectToRoute('app_profile', ['name' => $this->getUser()->getNickname()]);
     }
 
     /**

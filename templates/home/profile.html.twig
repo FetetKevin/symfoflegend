@@ -5,6 +5,7 @@
 {% block stylesheets %}{% endblock %}
 
 {% block body %}
+
 <div class="row mt-3 mb-5">
     <h1 class="mb-3">Profile</h1>
     {% if app.user and app.user.role == 'ROLE_ADMIN' %}
@@ -24,7 +25,7 @@
                             <th scope="col">Pseudo</th>
                             <th scope="col">Email</th>
                             <th scope="col">Date d'inscription</th>
-                            <th scope="col"><a href="{{ path('app_profile_modifier') }}">Modifier<a></th>
+                            <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -104,9 +105,11 @@
                                 <td>{{ user.nickname }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>{{ user.registerDate | date('d/m/Y à H:i') }}</td>
-                                <td><a href="{{ path('app_delete_user', {'id': user.id}) }}">
-                                    <button class="btn btn-danger">Supprimer</button>
-                                <a></td>
+                                <td>
+                                    <a href="{{ path('app_delete_user', {'id': user.id}) }}">
+                                        <button class="btn btn-danger">Supprimer</button>
+                                    <a>
+                                </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
@@ -117,30 +120,79 @@
     </div>
     {% endif %} 
     {% if app.user and app.user.role == 'ROLE_USER' %}
-    <table class="table table-hover border">
-        <thead>
-            <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Pseudo</th>
-            <th scope="col">Email</th>
-            <th scope="col">Date d'inscription</th>
-            <th scope="col">Modifier</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="table-active table-dark">
-            <th scope="row">{{ app.user.id }}</th>
-            <td>{{ app.user.nickname }}</td>
-            <td>{{ app.user.email }}</td>
-            <td>{{ app.user.registerDate | date('d/m/Y à H:i') }}</td>
-            <td>
-                <a href="{{ path('app_profile_modifier') }}">
-                    <button class="btn btn-success">Modifier</button>
-                <a>
-            </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="accordion mb-3" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                Infos
+            </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample" style="">
+                <div class="accordion-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Pseudo</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Date d'inscription</th>
+                            <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="table-active">
+                            <th scope="row">{{ app.user.id }}</th>
+                            <td>{{ app.user.nickname }}</td>
+                            <td>{{ app.user.email }}</td>
+                            <td>{{ app.user.registerDate | date('d/m/Y à H:i') }}</td>
+                            <td><a href="{{ path('app_profile_modifier') }}">
+                                    <button class="btn btn-success">Modifier</button>
+                                <a>
+                            </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Commentaires
+            </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">          
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Auteur</th>
+                            <th scope="col">Contenu</th>
+                            <th scope="col">Date</th>
+                            <td>Supprimer</td>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                        {% for comms in userComms %}
+                            <tr>
+                            <th scope="row">{{ comms.id }}</th>
+                            <td>{{ comms.author }}</td>
+                            <td>{{ comms.content }}</td>
+                            <td>{{ comms.createdAt | date('d/m/Y à H:i') }}</td>
+                            <td>
+                                <a href="{{ path('app_delete_comm', {'id': comms.id}) }}">
+                                    <button class="btn btn-danger">Supprimer</button>
+                                <a>
+                            </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>      
+                    </table>
+                </div>
+            </div>
+        </div>
     {% endif %} 
 </div>
 
