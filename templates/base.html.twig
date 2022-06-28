@@ -31,6 +31,11 @@
             </ul>
 
             <ul class="navbar-nav d-flex">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_api') }}">
+                            API
+                        </a>
+                    </li>
                 {% if not app.user %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_register') }}">
