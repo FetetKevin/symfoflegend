@@ -19,8 +19,8 @@
                 {% for champ in champions | sort((a, b) => a.likes <=> b.likes)  %}
                     <tr class="table-active">
                         <th scope="row">{{ champ.id }}</th>
-                        <td>{{ champ.name }}</td>
-                        <td><img src="http://ddragon.leagueoflegends.com/cdn/12.12.1/img/champion/{{champ.name}}.png" alt="image_champion" height="30px"></td>
+                        <td><a href="{{ path('app_champion', {'name': champ.name})}}">{{ champ.name }}</a></td>
+                        <td><a href="{{ path('app_champion', {'name': champ.name})}}"><img src="http://ddragon.leagueoflegends.com/cdn/12.12.1/img/champion/{{champ.name}}.png" alt="image_champion" height="30px"></a></td>
                         <td>{{ champ.likes | length }}</td>
                     </tr>
                 {% endfor %}

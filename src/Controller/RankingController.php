@@ -15,8 +15,8 @@ class RankingController extends AbstractController
      */
     public function index(ChampionsRepository $repo): Response
     {
-        $champions = $repo->findBy([],[],$limit = 5);
-        //$champions = $repo->findAll();
+        //$champions = $repo->findBy([],[],$limit = 5);
+        $champions = $repo->findAll();
 
         
         return $this->render('ranking/index.html.twig', [
