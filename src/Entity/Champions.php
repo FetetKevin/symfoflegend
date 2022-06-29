@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ChampionsRepository;
 use Doctrine\Common\Collections\Collection;
@@ -55,9 +56,15 @@ class Champions
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ChampLike::class, mappedBy="champion")
+     */
+    private $likes;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -165,5 +172,48 @@ class Champions
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, ChampLike>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(ChampLike $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes[] = $like;
+            $like->setChampion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(ChampLike $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getChampion() === $this) {
+                $like->setChampion(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Permet de savoir si ce champion est liké par un utilisateur
+     */
+    public function isLikedByUser(User $user): bool
+    {
+        foreach($this->likes as $like)
+        {
+            if($like->getUser() === $user)return true;
+        }
+
+        return false;
     }
 }

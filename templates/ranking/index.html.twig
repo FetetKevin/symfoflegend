@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Symfoflegend | Ranking{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-md-6 offset-3 mt-3 mb-3">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nom</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Likes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for champ in champions | sort((a, b) => a.likes <=> b.likes)  %}
+                    <tr class="table-active">
+                        <th scope="row">{{ champ.id }}</th>
+                        <td>{{ champ.name }}</td>
+                        <td><img src="http://ddragon.leagueoflegends.com/cdn/12.12.1/img/champion/{{champ.name}}.png" alt="image_champion" height="30px"></td>
+                        <td>{{ champ.likes | length }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

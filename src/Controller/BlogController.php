@@ -5,15 +5,17 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Champions;
+use App\Entity\ChampLike;
 use App\Repository\ChampionsRepository;
+use App\Repository\ChampLikeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Security;
 
 class BlogController extends AbstractController
 {
@@ -123,6 +125,49 @@ class BlogController extends AbstractController
             'formChamp' => $form->createView(),
             'modify' => $champion->getId() !== null
         ]);
+    }
+
+    /**
+     * Permet de liker ou unliker un champion
+     * @Route("/champion/{id}/like", name="app_like")
+     */
+    public function like(Champions $champion, EntityManagerInterface $manager, ChampLikeRepository $likeRepo): Response
+    {
+        $user = $this->getUser();
+
+        //if(!$user) return $this->redirectToRoute('app_champion', ['name' => $champion->getName()]);
+
+        if(!$user) return $this->json([
+            'code' => 403,
+            'message' => 'Unauthorized'
+        ], 403);
+        
+        if($champion->isLikedByUser($user)){
+            $like = $likeRepo->findOneBy([
+                'champion' => $champion,
+                'user' => $user
+            ]);
+
+            $manager->remove($like);
+            $manager->flush();
+
+            //return $this->redirectToRoute('app_champion', ['name' => $champion->getName()]);
+            return $this->json([
+                'code' => 200,
+                'message' => 'Like supprimé',
+                'likes' => $likeRepo->count(['champion' => $champion])
+            ], 200);
+        }
+
+        $like = new ChampLike();
+        $like->setChampion($champion)
+             ->setUser($user);
+
+        $manager->persist($like);
+        $manager->flush();
+
+        //return $this->redirectToRoute('app_champion', ['name' => $champion->getName()]);
+        return $this->json(['code' => 200, 'message' => 'like ajouté', 'likes' => $likeRepo->count(['champion' => $champion])], 200);
     }
 
 }

@@ -5,6 +5,7 @@
     <title>{% block title %}{% endblock %}</title>
     <link rel="icon" href="https://lutris.net/media/games/icons/leagueoflegends-icon.png">
     <link rel="stylesheet" href="https://bootswatch.com/5/lux/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
@@ -25,9 +26,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_liste') }}">Liste des champions</a>
                 </li>
-                {# <li class="nav-item">
-                    <a class="nav-link" href="#">Voir le ranking</a>
-                </li> #}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_ranking') }}">Voir le ranking</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav d-flex">
