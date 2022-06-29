@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for champ in champions | sort((a, b) => a.likes <=> b.likes)  %}
+                {% for champ in champions | sort((a, b) => a.likes | length <=> b.likes | length) | reverse |slice(0, 5)  %}
                     <tr class="table-active">
                         <th scope="row">{{ champ.id }}</th>
                         <td><a href="{{ path('app_champion', {'name': champ.name})}}">{{ champ.name }}</a></td>
