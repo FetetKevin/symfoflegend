@@ -33,7 +33,7 @@
         <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor02">
-            <ul class="navbar-nav me-auto">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_liste_sorted', { 'type' : 'Fighter' }) }}">Bruiser</a>
                 </li>
@@ -61,11 +61,13 @@
 
 <div class="row d-flex align-content-stretch mt-5 mb-5">
     {% if app.user and app.user.role == 'ROLE_ADMIN' %}
-    <a class="nav-link" href="{{ path('app_ajouter') }}">
-        <button type="submit" class="btn btn-dark">
-            Ajouter un champion
-        </button>
-    </a>
+    <div class="text-center">
+        <a class="nav-link" href="{{ path('app_ajouter') }}">
+            <button type="submit" class="btn btn-dark">
+                Ajouter un champion
+            </button>
+        </a>
+    </div>
     {% endif %}
     {% for champ in champions %}
     <div class="col-sm-6 col-md-3 p-4">

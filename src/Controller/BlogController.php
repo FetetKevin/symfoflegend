@@ -48,43 +48,6 @@ class BlogController extends AbstractController
     }
 
     /**
-     * @Route("/champion/{name}", name="app_champion")
-     */
-    public function formComment(String $name, Comment $comment = null, Request $request, EntityManagerInterface $manager, Security $security)
-    {
-        $champion = $this->repo->findOneByName($name);
-        $user = $security->getUser();
-
-        if(!empty($user)){
-            $nickname = $user->getNickname();
-        }
-        if(!$champion) {
-            throw $this->createNotFoundException();
-        }
-        if(!$comment){
-            $comment = new Comment();
-        }
-        $form = $this->createFormBuilder($comment)
-                    ->add('content')
-                    ->getForm();
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()) {
-            $comment->setChampion($champion);
-            $comment->setAuthor($nickname);
-            $comment->setCreatedAt(new \DateTime());
-
-            $manager->persist($comment);
-            $manager->flush();
-        }
-        return $this->render('blog/champion.html.twig', [
-            'formComment' => $form->createView(),
-            'champion' => $champion
-        ]);
-    }
-
-    /**
      * @Route("/champion/ajouter", name="app_ajouter")
      * @Route("/champion/{name}/modifier", name="app_modifier")
      */
@@ -126,6 +89,44 @@ class BlogController extends AbstractController
             'modify' => $champion->getId() !== null
         ]);
     }
+    
+    /**
+     * @Route("/champion/{name}", name="app_champion")
+     */
+    public function formComment(String $name, Comment $comment = null, Request $request, EntityManagerInterface $manager, Security $security)
+    {
+        $champion = $this->repo->findOneByName($name);
+        $user = $security->getUser();
+
+        if(!empty($user)){
+            $nickname = $user->getNickname();
+        }
+        if(!$champion) {
+            throw $this->createNotFoundException();
+        }
+        if(!$comment){
+            $comment = new Comment();
+        }
+        $form = $this->createFormBuilder($comment)
+                    ->add('content')
+                    ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $comment->setChampion($champion);
+            $comment->setAuthor($nickname);
+            $comment->setCreatedAt(new \DateTime());
+
+            $manager->persist($comment);
+            $manager->flush();
+        }
+        return $this->render('blog/champion.html.twig', [
+            'formComment' => $form->createView(),
+            'champion' => $champion
+        ]);
+    }
+
 
     /**
      * Permet de liker ou unliker un champion
